@@ -1,0 +1,45 @@
+.board-container{
+  text-align: center;
+  padding:40px; 
+  
+}
+.game-board{
+  background-color: black;
+  display: inline-block;
+}
+.disc-init{
+  height:50px;
+  width:50px;
+  padding:10px;
+  display: inline-block;
+  background-color: white;
+}
+.disc-container{
+  height:50px;
+  width:50px;
+  padding:10px;
+  display: inline-block;
+}
+.disc{
+  display: inline-block;
+  height:50px;
+  width:50px;
+  border-radius: 1000px;
+  background: rgb(255, 255, 255);
+}
+.disc:hover{
+  cursor: pointer;
+}
+.turn-indicator{
+  height: 30px;
+  width: 30px;
+  border-radius: 100px;
+  display: inline-block;
+}
+
+.red-content{
+  background-color: red;
+}
+.yellow-content{
+  background-color: yellow;
+}

@@ -5,6 +5,7 @@ var http = require('http').Server(app)
 var io = require('socket.io')(http);
 const PORT = 5000;
 
+app.use(express.static(__dirname+'/public'))
 //calls
 app.get('/', (req,res) => {
     res.sendFile(join(__dirname,'/public/index.html'));
@@ -33,17 +34,21 @@ const socketConnect = (socket) => {
 
     joinGame(socket);
 
-    if(hasOpponent(socket)){
+    if(getOpponent(socket)){
+        var color1 = players[socket.id].color
+        var color2 = players[getOpponent(socket).id].color
+        console.log(color1,color2)
+        
         socket.emit("start-game",{
-            symbol : players[socket.id].color,
+            color : color1,
         })
-
-        socket.emit("start-game",{
-            symbol : players[getOpponent(socket).id].color
+        
+        getOpponent(socket).emit("start-game",{
+            color : color2
         })
     }
 
-    socket.on("make-move", (data) => handleMove(socket,data))
+    socket.on("make-move", (data) => {handleMove(socket,data)})
 }
 
 const handleDisconnect = (socket) =>{
