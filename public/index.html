@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect-4</title>
+</head>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+
+<body>
+    Welcome to connect 4
+    <p id="info"></p>
+    <script>
+        console.log(io)
+        var socket = io();
+        var info = document.getElementById('info')
+        socket.on('client_update',(data) => {
+            info.innerHTML = data.client_count
+        })
+    </script>
+</body>
+
+</html>
