@@ -1,6 +1,15 @@
 
 
-var socket = io();
+var socket;
+
+function initalize_sockets(room_id){
+    socket = io();
+    socket.on("connect",() => {
+        socket.emit('room',room_id);
+    })
+    socket.on("move-made",(data) => {handleMoveMade(data)})
+    socket.on("start-game", (data) => {handleStartGame(data)});
+}
 
 var myTurn = true;
 var color;
@@ -42,8 +51,13 @@ function setDisc(color,row,column){
     }
 }
 
+
 $(document).ready((e) => {
     console.log(color)
+    var room_id = $('.room_id_container')[0].id
+    console.log("HERE")
+    console.log(room_id)
+    initalize_sockets(room_id)
     $("div.disc").click(function(){
         var disc_clicked = $(this).attr('id');
         var column = disc_clicked[1]
@@ -70,7 +84,7 @@ function makeMove(row,column){
     
 }
 
-socket.on("move-made",(data) => {
+function handleMoveMade(data){
     board[data.row][data.column] = data.color;
     console.log(board,data)
     setDisc(data.color,data.row,data.column);
@@ -92,19 +106,14 @@ socket.on("move-made",(data) => {
         }
         myTurn = false;
     }
-})
+}
 
-socket.on("start-game", function(data) {
+function handleStartGame(data){
     console.log("AT START",color)
     color = data.color; // The server is assigning the symbol
     myTurn = data.color === "red"; // 'X' starts first
     renderTurnMessage();
-});
-
-// Bind on event for opponent leaving the game
-socket.on("opponent.left", function() {
-    $("#message").text("Your opponent left the game.");
-});
+}
 
 function isGameOver(color,row,column){
     var won = isGameWon(color,row,column) 
