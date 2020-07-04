@@ -4,7 +4,7 @@ const { join } = require('path');
 const app = express();
 var http = require('http').Server(app)
 var io = require('socket.io')(http);
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.engine('html',mustacheExpress());
 app.set('view engine','mustache');
